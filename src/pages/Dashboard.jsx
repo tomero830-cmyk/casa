@@ -27,11 +27,11 @@ export default function Dashboard() {
         </p>
       </div>
 
-      {/* Today Summary */}
-      <TodayWidgets userEmail={user?.email} goalCalories={goalCalories} />
-
       {/* Indoor-walk time goal (only for users with synced walks) */}
       <WalkGoalCard userEmail={user?.email} />
+
+      {/* Today Summary */}
+      <TodayWidgets userEmail={user?.email} goalCalories={goalCalories} />
 
       {/* Weekly Insight Chart */}
       <WeeklyInsightChart userEmail={user?.email} />

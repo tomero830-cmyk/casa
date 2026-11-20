@@ -1,14 +1,14 @@
 {
   "name": "Casa",
   "short_name": "Casa",
-  "description": "ניהול הבית: תזונה, אימונים, צמחים, קניות והכנסות",
+  "description": "ניהול הבית: תזונה, אימונים, קניות והכנסות",
   "lang": "he",
   "dir": "rtl",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#f3efe7",
-  "theme_color": "#f3efe7",
+  "background_color": "#faf7f1",
+  "theme_color": "#faf7f1",
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
