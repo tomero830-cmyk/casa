@@ -7,6 +7,7 @@ import WorkoutHeroCard from "@/components/workouts/WorkoutHeroCard";
 import WorkoutCalendar from "@/components/workouts/WorkoutCalendar";
 import AddWorkoutSheet from "@/components/workouts/AddWorkoutSheet";
 import ConfirmDialog from "@/components/ConfirmDialog";
+import GymLog from "@/components/gym/GymLog";
 import { notifyError } from "@/lib/notify";
 import { parseDateStr } from "@/lib/dates";
 import { todayStr } from "@/lib/dates";
@@ -18,6 +19,7 @@ const TYPE_COLORS = ["coral", "green", "blue", "purple"];
 export default function Workouts() {
   const [selectedDate, setSelectedDate] = useState(todayStr());
   const [showAdd, setShowAdd] = useState(false);
+  const [tab, setTab] = useState("plan");
   const queryClient = useQueryClient();
 
   const { data: workouts = [], isLoading } = useQuery({
@@ -98,7 +100,23 @@ export default function Workouts() {
         onSelectDate={setSelectedDate}
       />
 
+      {/* Plan vs. strength log for the selected day */}
+      <div className="flex gap-1 p-1 bg-secondary/70 rounded-full">
+        {[["plan", "תוכנית היום"], ["gym", "יומן כוח"]].map(([key, label]) => (
+          <button
+            key={key}
+            onClick={() => setTab(key)}
+            className={cn("flex-1 py-2 rounded-full text-xs font-medium transition-colors", tab === key ? "bg-card shadow-sm text-foreground" : "text-muted-foreground")}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {tab === "gym" && <GymLog date={selectedDate} />}
+
       {/* Selected day workouts */}
+      {tab === "plan" && (
       <div className="surface overflow-hidden">
         <div className="flex items-center justify-between px-4 py-3 border-b border-border/30">
           <div>
@@ -169,6 +187,7 @@ export default function Workouts() {
           </div>
         )}
       </div>
+      )}
 
       <AddWorkoutSheet
         open={showAdd}

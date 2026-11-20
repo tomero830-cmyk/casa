@@ -1,0 +1,36 @@
+{
+  "name": "GymSet",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "תאריך האימון"
+    },
+    "exercise": {
+      "type": "string",
+      "description": "שם התרגיל"
+    },
+    "set_number": {
+      "type": "number",
+      "description": "מספר הסט באותו תרגיל ביום"
+    },
+    "reps": {
+      "type": "number",
+      "description": "חזרות"
+    },
+    "weight_kg": {
+      "type": "number",
+      "description": "משקל בק\"ג (0 = משקל גוף)"
+    },
+    "notes": {
+      "type": "string",
+      "description": "הערות"
+    }
+  },
+  "required": [
+    "date",
+    "exercise",
+    "reps"
+  ]
+}
