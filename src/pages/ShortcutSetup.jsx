@@ -19,7 +19,10 @@ export default function ShortcutSetup() {
     }
   };
 
-  const API_URL = `https://api.base44.com/api/apps/${appParams.appId}/functions/logSteps`;
+  // Backend functions are served from the app's own domain (the platform domain rejects them)
+  const API_URL = appParams.appBaseUrl
+    ? `${appParams.appBaseUrl.replace(/\/$/, "")}/functions/logSteps`
+    : `https://base44.app/api/apps/${appParams.appId}/functions/logSteps`;
 
   const steps = [
     {
@@ -153,7 +156,7 @@ export default function ShortcutSetup() {
               onClick={() => copyText(API_URL, "url")}
               className="w-full flex items-center gap-2 bg-muted rounded-xl px-3 py-2.5 text-xs font-mono"
             >
-              <span className="truncate text-foreground/70 flex-1 text-right">...base44.com/.../logSteps</span>
+              <span className="truncate text-foreground/70 flex-1 text-left" dir="ltr">{API_URL}</span>
               {copied === "url"
                 ? <Check className="w-4 h-4 text-primary shrink-0" />
                 : <Copy className="w-4 h-4 text-muted-foreground shrink-0" />}
