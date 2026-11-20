@@ -107,9 +107,10 @@ export default function ShortcutSetup() {
     },
     {
       id: 4,
-      title: "אימונים מהשעון: הליכה בפנים וריצה (לא חובה)",
+      title: "אימונים מהשעון (לא חובה, ולא בכל אייפון)",
       content: (
         <div className="space-y-4 text-sm">
+          <div className="rounded-xl bg-accent text-accent-foreground p-3 text-xs">אם אין בקיצורים שלך את הפעולה <strong>Find Workouts</strong>, מדלגים על כל השלב הזה. את ההליכה רושמים ב-10 שניות בכפתור <strong>"הליכה"</strong> בדף האימונים, או ב-<strong>"רישום"</strong> בכרטיס ההליכה בדף הבית.</div>
           <p className="text-muted-foreground text-xs">טיפ: באייפון בעברית, כדאי להעביר רק את אפליקציית הקיצורים לאנגלית (הגדרות ← אפליקציות ← קיצורים ← שפה), כדי שהשמות כאן יתאימו בדיוק.</p>
           <p className="text-muted-foreground text-xs">כך האפליקציה יודעת כמה זמן הלכת בהליכה בפנים, ומציבה יעד של 10% יותר מהממוצע שלך.</p>
 

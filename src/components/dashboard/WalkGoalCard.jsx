@@ -1,7 +1,8 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { Footprints, Target, Check } from "lucide-react";
+import { Footprints, Target, Check, Plus } from "lucide-react";
+import WalkLogSheet from "@/components/walks/WalkLogSheet";
 import { base44 } from "@/api/base44Client";
 import { walkStats, GOAL_BOOST } from "@/lib/walks";
 import { parseDateStr, todayStr } from "@/lib/dates";
@@ -20,6 +21,7 @@ export default function WalkGoalCard({ userEmail }) {
   });
 
   const stats = useMemo(() => walkStats(walks), [walks]);
+  const [logOpen, setLogOpen] = useState(false);
   if (!stats || !stats.goalMinutes) return null;
 
   const last = stats.last;
@@ -38,9 +40,14 @@ export default function WalkGoalCard({ userEmail }) {
           </div>
           <span className="text-xs text-muted-foreground">הליכה בפנים</span>
         </div>
-        <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
-          <Target className="w-3.5 h-3.5" /> יעד {stats.goalMinutes} דק׳
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
+            <Target className="w-3.5 h-3.5" /> יעד {stats.goalMinutes} דק׳
+          </span>
+          <button onClick={() => setLogOpen(true)} className="inline-flex items-center gap-1 h-7 px-2.5 rounded-full bg-primary text-primary-foreground text-[11px] font-semibold active:scale-95">
+            <Plus className="w-3 h-3" /> רישום
+          </button>
+        </div>
       </div>
 
       <div className="flex items-end justify-between gap-3">
@@ -68,6 +75,7 @@ export default function WalkGoalCard({ userEmail }) {
         <span>ממוצע {stats.avgMinutes} דק׳ · היעד {Math.round((GOAL_BOOST - 1) * 100)}% יותר</span>
         {Number(last.steps) > 0 && <span className="tabular">{Number(last.steps).toLocaleString()} צעדים{stats.lastCadence ? ` · ${stats.lastCadence} לדקה` : ""}</span>}
       </div>
+      <WalkLogSheet open={logOpen} onClose={() => setLogOpen(false)} defaultMinutes={stats.goalMinutes} />
     </motion.div>
   );
 }
