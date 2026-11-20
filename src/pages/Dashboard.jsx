@@ -4,6 +4,7 @@ import WeeklyInsightChart from "@/components/dashboard/WeeklyInsightChart";
 import TodayWidgets from "@/components/dashboard/TodayWidgets";
 import WalkGoalCard from "@/components/dashboard/WalkGoalCard";
 import RunsCard from "@/components/dashboard/RunsCard";
+import SharedGoalCard from "@/components/dashboard/SharedGoalCard";
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -31,6 +32,7 @@ export default function Dashboard() {
       {/* Indoor-walk time goal (only for users with synced walks) */}
       <WalkGoalCard userEmail={user?.email} />
       <RunsCard userEmail={user?.email} />
+      <SharedGoalCard />
 
       {/* Today Summary */}
       <TodayWidgets userEmail={user?.email} goalCalories={goalCalories} />
