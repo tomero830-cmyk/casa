@@ -74,10 +74,10 @@ export default function ShortcutSetup() {
     },
     {
       id: 3,
-      title: 'הוסף פעולה: "Get Statistics" — שלוש פעמים',
+      title: 'הוסף פעולה: "Calculate Statistics" — שלוש פעמים',
       content: (
         <div className="space-y-4 text-sm">
-          <p className="text-muted-foreground text-xs">חפש "Statistics" ובחר <strong>Get Statistics</strong></p>
+          <p className="text-muted-foreground text-xs">חפש "Statistics" ובחר <strong>Calculate Statistics</strong></p>
 
           <div className="space-y-2">
             <p className="font-semibold text-xs text-primary">פעולה 1:</p>
@@ -110,13 +110,14 @@ export default function ShortcutSetup() {
       title: "אימונים מהשעון: הליכה בפנים וריצה (לא חובה)",
       content: (
         <div className="space-y-4 text-sm">
+          <p className="text-muted-foreground text-xs">טיפ: באייפון בעברית, כדאי להעביר רק את אפליקציית הקיצורים לאנגלית (הגדרות ← אפליקציות ← קיצורים ← שפה), כדי שהשמות כאן יתאימו בדיוק.</p>
           <p className="text-muted-foreground text-xs">כך האפליקציה יודעת כמה זמן הלכת בהליכה בפנים, ומציבה יעד של 10% יותר מהממוצע שלך.</p>
 
           <div className="space-y-2">
             <p className="font-semibold text-xs text-primary">א. מציאת ההליכה של היום</p>
             <div className="bg-muted rounded-xl p-3 text-xs space-y-1">
               <p>• הוסף פעולה <strong>Find Workouts</strong></p>
-              <p>• <strong>Add Filter:</strong> Type is <strong>Indoor Walk</strong></p>
+              <p>• <strong>Add Filter:</strong> Type is <strong>Walking</strong></p>
               <p>• <strong>Add Filter:</strong> Start Date is <strong>Today</strong></p>
               <p>• <strong>Sort by:</strong> Start Date · <strong>Latest First</strong> · <strong>Limit:</strong> 1</p>
             </div>
@@ -137,14 +138,14 @@ export default function ShortcutSetup() {
               <p>• הוסף <strong>Find Health Samples</strong>: Type <strong>Steps</strong></p>
               <p>• Filter: Start Date is after ← ה-<strong>Start Date</strong> של האימון</p>
               <p>• Filter: End Date is before ← ה-<strong>End Date</strong> של האימון</p>
-              <p>• הוסף <strong>Get Statistics</strong> ← <strong>Sum</strong></p>
+              <p>• הוסף <strong>Calculate Statistics</strong> ← <strong>Sum</strong></p>
             </div>
           </div>
 
           <div className="space-y-2">
             <p className="font-semibold text-xs text-primary">ד. ריצה (אותו דבר, לריצות)</p>
             <div className="bg-muted rounded-xl p-3 text-xs space-y-1">
-              <p>• עוד <strong>Find Workouts</strong> עם Type <strong>Outdoor Run</strong>, מהיום, Latest First, Limit 1</p>
+              <p>• עוד <strong>Find Workouts</strong> עם Type <strong>Running</strong>, מהיום, Latest First, Limit 1</p>
               <p>• <strong>Duration</strong> ← <strong>Convert Measurement</strong> לדקות, <strong>Distance</strong> (בק״מ), ו-<strong>Start Date</strong></p>
             </div>
           </div>
