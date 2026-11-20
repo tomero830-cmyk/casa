@@ -1,0 +1,27 @@
+{
+  "name": "PushSubscription",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "כתובת ה-Push של המכשיר"
+    },
+    "p256dh": {
+      "type": "string",
+      "description": "מפתח הצפנה ציבורי של המכשיר"
+    },
+    "auth": {
+      "type": "string",
+      "description": "סוד אימות של המכשיר"
+    },
+    "user_agent": {
+      "type": "string",
+      "description": "סוג המכשיר / הדפדפן"
+    }
+  },
+  "required": [
+    "endpoint",
+    "p256dh",
+    "auth"
+  ]
+}

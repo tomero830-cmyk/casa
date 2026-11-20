@@ -21,6 +21,7 @@ import Shopping from '@/pages/Shopping';
 import ShortcutSetup from '@/pages/ShortcutSetup';
 import DesignChoice from '@/pages/DesignChoice';
 import WidgetSetup from '@/pages/WidgetSetup';
+import Settings from '@/pages/Settings';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -59,6 +60,7 @@ const AuthenticatedApp = () => {
           <Route path="/shopping" element={<Shopping />} />
           <Route path="/shortcut-setup" element={<ShortcutSetup />} />
           <Route path="/widget" element={<WidgetSetup />} />
+          <Route path="/settings" element={<Settings />} />
         </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />

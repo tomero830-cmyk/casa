@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
-import { Home, Wallet, Dumbbell, Apple, ShoppingCart } from "lucide-react";
+import { Home, Wallet, Dumbbell, Apple, ShoppingCart, Settings as SettingsIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { HOUSEHOLD_NAME } from "@/lib/household";
 
@@ -59,8 +59,11 @@ export default function AppLayout() {
             </div>
             <h1 className="text-xl font-playfair italic tracking-wide">Casa</h1>
           </div>
-          <div className={cn("text-[11px] tracking-wide transition-colors", "text-muted-foreground")}>
-            {HOUSEHOLD_NAME}
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] tracking-wide text-muted-foreground">{HOUSEHOLD_NAME}</span>
+            <Link to="/settings" aria-label="הגדרות" className="w-8 h-8 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">
+              <SettingsIcon className="w-[18px] h-[18px]" />
+            </Link>
           </div>
         </div>
       </header>
