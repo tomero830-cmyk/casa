@@ -1,0 +1,29 @@
+{
+  "name": "GymTemplate",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "שם התוכנית (למשל: אימון A, רגליים)"
+    },
+    "exercises": {
+      "type": "array",
+      "description": "התרגילים בתוכנית, לפי הסדר",
+      "items": {
+        "type": "object",
+        "properties": {
+          "exercise": { "type": "string" },
+          "sets": { "type": "number" },
+          "reps": { "type": "number" }
+        }
+      }
+    },
+    "order": {
+      "type": "number",
+      "description": "סדר תצוגה"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

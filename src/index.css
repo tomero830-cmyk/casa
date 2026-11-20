@@ -227,3 +227,7 @@
     --tone-brown-fg: 16 40% 34%;
   }
 }
+
+/* Horizontal chip rows without a visible scrollbar */
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }

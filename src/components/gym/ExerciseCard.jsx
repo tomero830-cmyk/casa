@@ -35,13 +35,13 @@ function Stepper({ label, value, onChange, step, min = 0, suffix }) {
 /**
  * One exercise within a day: its sets, last session's numbers, and quick entry for the next set.
  */
-export default function ExerciseCard({ exercise, daySets, allSets, date, onAdd, onDelete, onOpenProgress }) {
+export default function ExerciseCard({ exercise, daySets, allSets, date, onAdd, onDelete, onOpenProgress, target }) {
   const last = useMemo(() => lastSessionBefore(allSets, exercise, date), [allSets, exercise, date]);
 
   // Prefill from today's last set, else last session's first set
   const seed = daySets[daySets.length - 1] || last?.sets[0];
   const [weight, setWeight] = useState(Number(seed?.weight_kg) || 0);
-  const [reps, setReps] = useState(Number(seed?.reps) || 10);
+  const [reps, setReps] = useState(Number(seed?.reps) || Number(target?.reps) || 10);
 
   const add = () => {
     if (!reps) return;
@@ -56,6 +56,11 @@ export default function ExerciseCard({ exercise, daySets, allSets, date, onAdd, 
             {exercise}
             <ChevronLeft className="w-4 h-4 text-muted-foreground shrink-0" />
           </p>
+          {target && (
+            <p className="text-[11px] text-primary mt-0.5">
+              יעד: {target.sets} × {target.reps}{daySets.length >= target.sets ? " · הושלם ✓" : ` · נשארו ${target.sets - daySets.length} סטים`}
+            </p>
+          )}
           {last ? (
             <p className="text-[11px] text-muted-foreground mt-0.5 flex items-center gap-1">
               <History className="w-3 h-3" />
