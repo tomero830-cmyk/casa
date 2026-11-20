@@ -29,7 +29,10 @@ React 18 + Vite, React Router 6, TanStack Query, Tailwind + shadcn/ui (`src/comp
 - Internal FoodEntry rows: `__steps__`, `__calories_burned__` are excluded from food totals.
 
 ## Deploy
-Vercel (`vercel.json`) or Netlify (`public/_redirects`). Both proxy `/api/*` to `https://base44.app/api/*` (the app calls relative `/api/...` URLs) and fall back to `index.html` for SPA routes. Env vars: see `.env.example`.
+- GitHub: public repo `tomero830-cmyk/casa`, branch `main`. Vercel auto-deploys every push to `main` (production: https://casa-seven-xi.vercel.app). Netlify also works via `public/_redirects`.
+- `vercel.json` proxies `/api/*` to `https://base44.app/api/*` (the app calls relative `/api/...` URLs) and falls back to `index.html` for SPA routes.
+- Env vars (set in Vercel): `VITE_BASE44_APP_ID`, `VITE_BASE44_APP_BASE_URL` (the Base44 app domain), `VITE_HOUSEHOLD_NAME`. See `.env.example`.
+- Before pushing: `npm run lint` and `npm run build` must pass. The local branch `private-history` holds old history with personal data and must never be pushed.
 
 ## Keeping the Claude project in sync
 After committing: `python3 scripts/export-source.py` regenerates `casa-source.md` and `casa-code.json`; upload `casa-source.md` to the project files.
