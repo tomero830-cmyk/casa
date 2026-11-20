@@ -1,0 +1,24 @@
+name: Weekly digest
+
+# Every Sunday 05:30 UTC (07:30/08:30 in Israel): ask the Base44 function to send the weekly summary push.
+on:
+  schedule:
+    - cron: "30 5 * * 0"
+  workflow_dispatch:
+    inputs:
+      dry:
+        description: "Dry run (compute messages without sending)"
+        type: boolean
+        default: true
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger weeklyDigest
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          DIGEST_URL: ${{ secrets.DIGEST_URL }}
+          DRY: ${{ github.event_name == 'workflow_dispatch' && inputs.dry && '1' || '0' }}
+        run: |
+          curl -sS --fail-with-body -X POST "$DIGEST_URL?dry=$DRY" -H "x-cron-secret: $CRON_SECRET" -H "Content-Type: application/json" --data '{}'
