@@ -1,14 +1,13 @@
 import { useState, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
-import { Plus, Check, Dumbbell, Footprints, Trash2, Loader2 } from "lucide-react";
+import { Plus, Check, Dumbbell, Trash2, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import WorkoutHeroCard from "@/components/workouts/WorkoutHeroCard";
 import WorkoutCalendar from "@/components/workouts/WorkoutCalendar";
 import AddWorkoutSheet from "@/components/workouts/AddWorkoutSheet";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import GymLog from "@/components/gym/GymLog";
-import WalkLogSheet from "@/components/walks/WalkLogSheet";
 import { notifyError } from "@/lib/notify";
 import { parseDateStr } from "@/lib/dates";
 import { todayStr } from "@/lib/dates";
@@ -21,7 +20,6 @@ export default function Workouts() {
   const [selectedDate, setSelectedDate] = useState(todayStr());
   const [showAdd, setShowAdd] = useState(false);
   const [tab, setTab] = useState("plan");
-  const [walkOpen, setWalkOpen] = useState(false);
   const queryClient = useQueryClient();
 
   const { data: workouts = [], isLoading } = useQuery({
@@ -77,13 +75,6 @@ export default function Workouts() {
     <div className="space-y-4">
       {/* Header */}
       <PageHeader icon={Dumbbell} title="אימונים" subtitle={todaysWorkout ? `היום: ${todaysWorkout.workout_type}` : "אין אימון מתוכנן להיום"}>
-        <button
-          onClick={() => setWalkOpen(true)}
-          className="flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-primary/40 text-primary text-sm font-medium active:scale-95 transition"
-        >
-          <Footprints className="w-4 h-4" />
-          הליכה
-        </button>
         <button
           onClick={() => setShowAdd(true)}
           className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary text-primary-foreground text-sm font-semibold shadow-sm hover:bg-primary/90 transition-colors"
@@ -197,8 +188,6 @@ export default function Workouts() {
         )}
       </div>
       )}
-
-      <WalkLogSheet open={walkOpen} onClose={() => setWalkOpen(false)} />
 
       <AddWorkoutSheet
         open={showAdd}
