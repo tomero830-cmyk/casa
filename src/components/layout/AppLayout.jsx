@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Home, Wallet, Dumbbell, Apple, ShoppingCart, Settings as SettingsIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { HOUSEHOLD_NAME } from "@/lib/household";
+import { isDemoMode, DEMO_FLAG } from "@/api/demoClient";
 
 const navItems = [
   { path: "/", icon: Home, label: "בית" },
@@ -67,6 +68,20 @@ export default function AppLayout() {
           </div>
         </div>
       </header>
+
+      {isDemoMode() && (
+        <div className="max-w-lg mx-auto w-full px-4">
+          <div className="flex items-center justify-between rounded-full bg-[hsl(var(--tone-brown-bg))] text-[hsl(var(--tone-brown-fg))] px-4 py-1.5 text-[11px]">
+            <span>מצב הדגמה · כל הנתונים לדוגמה</span>
+            <button
+              onClick={() => { try { sessionStorage.removeItem(DEMO_FLAG); } catch { /* ignore */ } window.location.href = "/login"; }}
+              className="font-semibold underline underline-offset-2"
+            >
+              יציאה
+            </button>
+          </div>
+        </div>
+      )}
 
       <main className="flex-1 pb-[calc(7rem+env(safe-area-inset-bottom))]">
         <motion.div

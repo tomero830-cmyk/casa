@@ -43,6 +43,10 @@ export default function Login() {
           <Link to="/register" className="text-primary font-medium hover:underline">
             צרו חשבון
           </Link>
+          <span className="mx-2 text-border">·</span>
+          <a href="/demo" className="text-primary font-medium hover:underline">
+            צפייה בדמו
+          </a>
         </>
       }
     >

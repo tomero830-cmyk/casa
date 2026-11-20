@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Link } from "react-router-dom";
-import { Smartphone, BookOpen, Apple, Plus, LayoutGrid } from "lucide-react";
+import { Smartphone, BookOpen, Apple, Plus } from "lucide-react";
 import DailyNutritionSummary from "@/components/nutrition/DailyNutritionSummary";
 import MealLog from "@/components/nutrition/MealLog";
 import AddFoodSheet from "@/components/nutrition/AddFoodSheet";
@@ -86,11 +86,7 @@ export default function Nutrition() {
         </button>
         <Link to="/shortcut-setup" className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-card text-xs font-medium text-muted-foreground hover:text-foreground transition-colors">
           <Smartphone className="w-3.5 h-3.5" />
-          סנכרון Apple Health
-        </Link>
-        <Link to="/widget" className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-card text-xs font-medium text-muted-foreground hover:text-foreground transition-colors">
-          <LayoutGrid className="w-3.5 h-3.5" />
-          ווידג'ט
+          Apple Health
         </Link>
       </div>
 
