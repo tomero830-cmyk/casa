@@ -107,7 +107,7 @@ export default function ShortcutSetup() {
     },
     {
       id: 4,
-      title: "אימון הליכה בפנים מהשעון (לא חובה)",
+      title: "אימונים מהשעון: הליכה בפנים וריצה (לא חובה)",
       content: (
         <div className="space-y-4 text-sm">
           <p className="text-muted-foreground text-xs">כך האפליקציה יודעת כמה זמן הלכת בהליכה בפנים, ומציבה יעד של 10% יותר מהממוצע שלך.</p>
@@ -141,7 +141,15 @@ export default function ShortcutSetup() {
             </div>
           </div>
 
-          <p className="text-[11px] text-muted-foreground">בימים בלי הליכה הערכים יישלחו ריקים, והאפליקציה פשוט תתעלם מהם.</p>
+          <div className="space-y-2">
+            <p className="font-semibold text-xs text-primary">ד. ריצה (אותו דבר, לריצות)</p>
+            <div className="bg-muted rounded-xl p-3 text-xs space-y-1">
+              <p>• עוד <strong>Find Workouts</strong> עם Type <strong>Outdoor Run</strong>, מהיום, Latest First, Limit 1</p>
+              <p>• <strong>Duration</strong> ← <strong>Convert Measurement</strong> לדקות, <strong>Distance</strong> (בק״מ), ו-<strong>Start Date</strong></p>
+            </div>
+          </div>
+
+          <p className="text-[11px] text-muted-foreground">בימים בלי אימון הערכים יישלחו ריקים, והאפליקציה פשוט תתעלם מהם.</p>
         </div>
       ),
     },
@@ -198,12 +206,15 @@ export default function ShortcutSetup() {
                 <span className="font-mono text-primary shrink-0">"secret"</span>
                 <span className="text-muted-foreground text-right">← ראה למטה</span>
               </div>
-              <div className="pt-2 mt-1 border-t border-border/60 text-[11px] text-muted-foreground">שדות ההליכה (משלב 4):</div>
+              <div className="pt-2 mt-1 border-t border-border/60 text-[11px] text-muted-foreground">שדות האימונים מהשעון (משלב 4):</div>
               {[
                 ["walk_minutes", "התוצאה של Convert Measurement (דקות)"],
                 ["walk_steps", "Calculated Result של צעדי ההליכה"],
                 ["walk_distance_km", "Distance של האימון"],
                 ["walk_start", "Start Date של האימון"],
+                ["run_minutes", "דקות הריצה (Convert Measurement)"],
+                ["run_distance_km", "Distance של הריצה"],
+                ["run_start", "Start Date של הריצה"],
               ].map(([k, v]) => (
                 <div key={k} className="flex items-start justify-between gap-2">
                   <span className="font-mono text-primary shrink-0">"{k}"</span>

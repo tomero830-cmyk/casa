@@ -1,6 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 
-// Receives daily steps, burned calories and (optionally) today's indoor walk from iOS Shortcuts.
+// Receives daily steps, burned calories and (optionally) today's indoor walk / outdoor run from iOS Shortcuts.
 // Records are written with the service role, so they are attributed explicitly to user_email:
 // the app reads __steps__ / __calories_burned__ rows by created_by.
 
@@ -19,8 +19,7 @@ Deno.serve(async (req) => {
     }
 
     const body = await req.json();
-    const { steps, calories_burned, resting_calories, date, secret, user_email,
-      walk_minutes, walk_steps, walk_distance_km, walk_calories, walk_start } = body;
+    const { steps, calories_burned, resting_calories, date, secret, user_email } = body;
 
     if (secret !== expectedSecret) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
@@ -71,22 +70,24 @@ Deno.serve(async (req) => {
       await upsert("__calories_burned__", { calories: totalCaloriesBurned });
     }
 
-    // Indoor walk from the watch (optional). One row per workout, keyed by its start time.
-    let walkSaved = false;
-    const walkMinutes = toNumber(walk_minutes);
-    if (walkMinutes !== null && walkMinutes > 0) {
+    // Watch workouts (optional): indoor walk (walk_*) and outdoor run (run_*).
+    // One HealthWorkout row per workout, keyed by its start time, so re-runs update instead of duplicating.
+    const saveWorkout = async (type: string, prefix: string) => {
+      const minutes = toNumber(body[`${prefix}_minutes`]);
+      if (minutes === null || minutes <= 0) return false;
       const HealthWorkout = base44.asServiceRole.entities.HealthWorkout;
-      const startKey = typeof walk_start === "string" && walk_start.trim() ? walk_start.trim() : `${todayDate}`;
+      const rawStart = body[`${prefix}_start`];
+      const startKey = typeof rawStart === "string" && rawStart.trim() ? rawStart.trim() : todayDate;
       const values = {
         date: todayDate,
-        workout_type: "indoor_walk",
+        workout_type: type,
         start_time: startKey,
-        duration_min: Math.round(walkMinutes * 10) / 10,
-        steps: toNumber(walk_steps) ?? 0,
-        distance_km: toNumber(walk_distance_km) ?? 0,
-        calories: toNumber(walk_calories) ?? 0,
+        duration_min: Math.round(minutes * 10) / 10,
+        steps: toNumber(body[`${prefix}_steps`]) ?? 0,
+        distance_km: toNumber(body[`${prefix}_distance_km`]) ?? 0,
+        calories: toNumber(body[`${prefix}_calories`]) ?? 0,
       };
-      const existing = await HealthWorkout.filter({ date: todayDate, workout_type: "indoor_walk", start_time: startKey });
+      const existing = await HealthWorkout.filter({ date: todayDate, workout_type: type, start_time: startKey });
       const mine = existing.filter(e => (e.created_by || "").toLowerCase() === email);
       if (mine.length > 0) {
         await HealthWorkout.update(mine[0].id, values);
@@ -94,12 +95,15 @@ Deno.serve(async (req) => {
         const created = await HealthWorkout.create({ ...values, created_by: email });
         if ((created?.created_by || "").toLowerCase() !== email) attributed = false;
       }
-      walkSaved = true;
-    }
+      return true;
+    };
+    const walkSaved = await saveWorkout("indoor_walk", "walk");
+    const runSaved = await saveWorkout("outdoor_run", "run");
 
     return Response.json({
       success: true,
       walk_saved: walkSaved,
+      run_saved: runSaved,
       steps: stepsValue ?? 0,
       calories_burned: totalCaloriesBurned,
       date: todayDate,

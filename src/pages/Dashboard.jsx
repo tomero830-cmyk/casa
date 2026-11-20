@@ -3,6 +3,7 @@ import { HOUSEHOLD_NAME } from "@/lib/household";
 import WeeklyInsightChart from "@/components/dashboard/WeeklyInsightChart";
 import TodayWidgets from "@/components/dashboard/TodayWidgets";
 import WalkGoalCard from "@/components/dashboard/WalkGoalCard";
+import RunsCard from "@/components/dashboard/RunsCard";
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -29,6 +30,7 @@ export default function Dashboard() {
 
       {/* Indoor-walk time goal (only for users with synced walks) */}
       <WalkGoalCard userEmail={user?.email} />
+      <RunsCard userEmail={user?.email} />
 
       {/* Today Summary */}
       <TodayWidgets userEmail={user?.email} goalCalories={goalCalories} />

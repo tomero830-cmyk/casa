@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { UtensilsCrossed, Footprints, Dumbbell, ShoppingCart, Scale, Flame, Check } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { cn } from "@/lib/utils";
-import { todayStr } from "@/lib/dates";
+import { todayStr, addDaysStr } from "@/lib/dates";
 
 const INTERNAL = ["__steps__", "__calories_burned__"];
 
@@ -114,13 +114,18 @@ export default function TodayWidgets({ userEmail, goalCalories = 1400 }) {
     return streak;
   }, [myFood, today]);
 
+  // Personal dashboard: calorie widgets only for someone who actually logs food
+  const twoWeeksAgo = addDaysStr(today, -14);
+  const tracksFood = calories > 0 || myFood.some(e => !INTERNAL.includes(e.food_name) && e.date >= twoWeeksAgo);
+  const tracksWeight = myWeights.length > 0;
+
   const caloriesLeft = goalCalories - calories;
   const overGoal = caloriesLeft < -100;
 
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-2 gap-3">
       {/* Calories: wide */}
-      <Widget to="/nutrition" icon={UtensilsCrossed} tone="bg-accent text-accent-foreground" label="קלוריות היום" className="col-span-2">
+      {tracksFood && <Widget to="/nutrition" icon={UtensilsCrossed} tone="bg-accent text-accent-foreground" label="קלוריות היום" className="col-span-2">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-3xl font-semibold tabular leading-none">{calories.toLocaleString()}</p>
@@ -131,7 +136,7 @@ export default function TodayWidgets({ userEmail, goalCalories = 1400 }) {
           </div>
           <Ring value={calories} max={goalCalories} className={overGoal ? "text-destructive" : "text-primary"} />
         </div>
-      </Widget>
+      </Widget>}
 
       <Widget to="/nutrition" icon={Footprints} tone="bg-accent text-accent-foreground" label="צעדים">
         <p className="text-2xl font-semibold tabular leading-none">{steps ? steps.toLocaleString() : "—"}</p>
@@ -161,19 +166,19 @@ export default function TodayWidgets({ userEmail, goalCalories = 1400 }) {
         </p>
       </Widget>
 
-      <Widget to="/nutrition" icon={Scale} tone="bg-[hsl(var(--tone-brown-bg))] text-[hsl(var(--tone-brown-fg))]" label="משקל">
+      {tracksWeight && <Widget to="/nutrition" icon={Scale} tone="bg-[hsl(var(--tone-brown-bg))] text-[hsl(var(--tone-brown-fg))]" label="משקל">
         <p className="text-2xl font-semibold tabular leading-none">{latestWeight ? latestWeight.weight_kg : "—"}</p>
         <p className="text-[11px] text-muted-foreground mt-1">
           {weightChange == null ? "ק״ג" : `${weightChange > 0 ? "+" : ""}${weightChange} ק״ג מההתחלה`}
         </p>
-      </Widget>
+      </Widget>}
 
-      <Widget to="/nutrition" icon={Flame} tone="bg-[hsl(var(--tone-brown-bg))] text-[hsl(var(--tone-brown-fg))]" label="רצף גירעון" className="col-span-2">
+      {tracksFood && <Widget to="/nutrition" icon={Flame} tone="bg-[hsl(var(--tone-brown-bg))] text-[hsl(var(--tone-brown-fg))]" label="רצף גירעון" className="col-span-2">
         <div className="flex items-baseline gap-2">
           <p className="text-2xl font-semibold tabular leading-none">{deficitStreak}</p>
           <p className="text-xs text-muted-foreground">{deficitStreak === 1 ? "יום" : "ימים"} ברצף שבהם אכלת פחות ממה ששרפת</p>
         </div>
-      </Widget>
+      </Widget>}
     </motion.div>
   );
 }
