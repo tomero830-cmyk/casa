@@ -104,6 +104,46 @@ export default function ShortcutSetup() {
     },
     {
       id: 4,
+      title: "אימון הליכה בפנים מהשעון (לא חובה)",
+      content: (
+        <div className="space-y-4 text-sm">
+          <p className="text-muted-foreground text-xs">כך האפליקציה יודעת כמה זמן הלכת בהליכה בפנים, ומציבה יעד של 10% יותר מהממוצע שלך.</p>
+
+          <div className="space-y-2">
+            <p className="font-semibold text-xs text-primary">א. מציאת ההליכה של היום</p>
+            <div className="bg-muted rounded-xl p-3 text-xs space-y-1">
+              <p>• הוסף פעולה <strong>Find Workouts</strong></p>
+              <p>• <strong>Add Filter:</strong> Type is <strong>Indoor Walk</strong></p>
+              <p>• <strong>Add Filter:</strong> Start Date is <strong>Today</strong></p>
+              <p>• <strong>Sort by:</strong> Start Date · <strong>Latest First</strong> · <strong>Limit:</strong> 1</p>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <p className="font-semibold text-xs text-primary">ב. הפרטים של ההליכה</p>
+            <div className="bg-muted rounded-xl p-3 text-xs space-y-1">
+              <p>• הוסף <strong>Get Details of Workouts</strong> ← בחר <strong>Duration</strong></p>
+              <p>• הוסף <strong>Convert Measurement</strong> ← ל-<strong>minutes</strong> (זה ה"זמן הליכה")</p>
+              <p>• הוסף עוד <strong>Get Details of Workouts</strong> ← <strong>Distance</strong>, ואחר כך עוד אחד ← <strong>Start Date</strong></p>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <p className="font-semibold text-xs text-primary">ג. צעדים בזמן ההליכה (בונוס)</p>
+            <div className="bg-muted rounded-xl p-3 text-xs space-y-1">
+              <p>• הוסף <strong>Find Health Samples</strong>: Type <strong>Steps</strong></p>
+              <p>• Filter: Start Date is after ← ה-<strong>Start Date</strong> של האימון</p>
+              <p>• Filter: End Date is before ← ה-<strong>End Date</strong> של האימון</p>
+              <p>• הוסף <strong>Get Statistics</strong> ← <strong>Sum</strong></p>
+            </div>
+          </div>
+
+          <p className="text-[11px] text-muted-foreground">בימים בלי הליכה הערכים יישלחו ריקים, והאפליקציה פשוט תתעלם מהם.</p>
+        </div>
+      ),
+    },
+    {
+      id: 5,
       title: 'הוסף פעולה: "Get Contents of URL"',
       content: (
         <div className="space-y-4 text-sm">
@@ -153,8 +193,20 @@ export default function ShortcutSetup() {
               </div>
               <div className="flex items-start justify-between gap-2">
                 <span className="font-mono text-primary shrink-0">"secret"</span>
-                <span className="text-muted-foreground text-right">← ראה שלב 4.5 למטה</span>
+                <span className="text-muted-foreground text-right">← ראה למטה</span>
               </div>
+              <div className="pt-2 mt-1 border-t border-border/60 text-[11px] text-muted-foreground">שדות ההליכה (משלב 4):</div>
+              {[
+                ["walk_minutes", "התוצאה של Convert Measurement (דקות)"],
+                ["walk_steps", "Calculated Result של צעדי ההליכה"],
+                ["walk_distance_km", "Distance של האימון"],
+                ["walk_start", "Start Date של האימון"],
+              ].map(([k, v]) => (
+                <div key={k} className="flex items-start justify-between gap-2">
+                  <span className="font-mono text-primary shrink-0">"{k}"</span>
+                  <span className="text-muted-foreground text-right">→ {v}</span>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -162,15 +214,15 @@ export default function ShortcutSetup() {
           <div className="rounded-xl bg-[hsl(var(--tone-gold-bg))] border border-[hsl(var(--tone-gold-mid))] p-3 text-xs space-y-1">
             <p className="font-semibold text-[hsl(var(--tone-gold-fg))]">🔑 איפה מוצאים את ה-Secret?</p>
             <p className="text-[hsl(var(--tone-gold-fg))]">
-              לך ב-Base44 ל: <strong>Dashboard → Settings → Environment Variables</strong><br />
-              העתק את הערך של <strong>SHORTCUTS_SECRET</strong> והדבק בשדה "secret"
+              זה הקוד הסודי שנוצר בהגדרת השרת (SHORTCUTS_SECRET). מי שהגדיר את האפליקציה שולח אותו,<br />
+              ומדביקים אותו בשדה "secret". בלעדיו השרת לא יקבל את הנתונים.
             </p>
           </div>
         </div>
       ),
     },
     {
-      id: 5,
+      id: 6,
       title: "הגדר אוטומציה יומית בחצות",
       content: (
         <div className="space-y-3 text-sm">

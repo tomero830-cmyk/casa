@@ -1,0 +1,39 @@
+{
+  "name": "HealthWorkout",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "תאריך האימון"
+    },
+    "workout_type": {
+      "type": "string",
+      "description": "סוג האימון מהשעון (למשל indoor_walk)"
+    },
+    "start_time": {
+      "type": "string",
+      "description": "זמן התחלה כפי שנשלח מהקיצור (משמש למניעת כפילויות)"
+    },
+    "duration_min": {
+      "type": "number",
+      "description": "משך בדקות"
+    },
+    "steps": {
+      "type": "number",
+      "description": "צעדים במהלך האימון"
+    },
+    "distance_km": {
+      "type": "number",
+      "description": "מרחק בק\"מ"
+    },
+    "calories": {
+      "type": "number",
+      "description": "קלוריות פעילות"
+    }
+  },
+  "required": [
+    "date",
+    "workout_type"
+  ]
+}
