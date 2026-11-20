@@ -20,6 +20,7 @@ import Nutrition from '@/pages/Nutrition';
 import Shopping from '@/pages/Shopping';
 import ShortcutSetup from '@/pages/ShortcutSetup';
 import DesignChoice from '@/pages/DesignChoice';
+import WidgetSetup from '@/pages/WidgetSetup';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -57,6 +58,7 @@ const AuthenticatedApp = () => {
           <Route path="/nutrition" element={<Nutrition />} />
           <Route path="/shopping" element={<Shopping />} />
           <Route path="/shortcut-setup" element={<ShortcutSetup />} />
+          <Route path="/widget" element={<WidgetSetup />} />
         </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />

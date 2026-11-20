@@ -1,0 +1,17 @@
+{
+  "name": "WidgetToken",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "קוד גישה אישי לווידג'ט (נוצר באפליקציה, נבדק בפונקציה widgetSummary)"
+    },
+    "label": {
+      "type": "string",
+      "description": "שם המכשיר / הערה"
+    }
+  },
+  "required": [
+    "token"
+  ]
+}

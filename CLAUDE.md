@@ -24,6 +24,8 @@ React 18 + Vite, React Router 6, TanStack Query, Tailwind + shadcn/ui (`src/comp
 - Gym log: entity `GymSet` (one row per set: date, exercise, set_number, reps, weight_kg). Pure helpers in `src/lib/gym.js` (Epley 1RM, sessions, PRs, last session); UI in `src/components/gym/*`, shown as the "יומן כוח" tab on the Workouts page. Data hook `useGymSets` filters by `created_by` and updates optimistically.
 - Indoor walks: entity `HealthWorkout` (date, workout_type=indoor_walk, start_time, duration_min, steps, distance_km, calories), written by `logSteps` from the Shortcut's `walk_*` fields. `src/lib/walks.js` computes average walking time and a +10% goal; `components/dashboard/WalkGoalCard.jsx` shows it only to users with synced walks.
 - Base44 schema/function changes are deployed with the official CLI (`npx base44@0.3.6 entities push` / `functions deploy`). `entities push` is a FULL sync that removes remote entities missing locally, so push from a folder that contains every remote entity (incl. `Expense`), never from the repo's trimmed `base44/entities`.
+- iPhone widget: Scriptable script generated in `src/lib/widgetScript.js` (page `/widget`). Auth via a personal `WidgetToken` row; Base44 function `widgetSummary` (read-only) resolves token → user and returns today's calories/goal, steps and indoor-walk progress. Functions deployed with the CLI need a Publish in the Base44 editor before the live app uses them.
+- Themes: `src/lib/theme.js` (per device, localStorage); default `olive`. Design picker at public route `/design`.
 - Repo is meant to be public: no personal names, emails or secrets in code; household-specific values come from env vars.
 
 ## Conventions
