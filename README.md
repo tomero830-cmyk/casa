@@ -1,5 +1,7 @@
 # Casa
 
+[![CI](https://github.com/tomero830-cmyk/casa/actions/workflows/ci.yml/badge.svg)](https://github.com/tomero830-cmyk/casa/actions/workflows/ci.yml)
+
 A mobile-first household app for two: nutrition and calorie balance, weight trends with a goal forecast, workouts, a smart shopping list, and private income tracking. Hebrew UI, right-to-left, installable as a PWA.
 
 > Built and used daily by a couple. Each person gets their own private data; the shopping list and workouts are shared.
@@ -48,7 +50,9 @@ cp .env.example .env.local   # set VITE_BASE44_APP_ID and VITE_BASE44_APP_BASE_U
 npm run dev
 ```
 
-`npm run build` · `npm run lint`
+`npm run build` · `npm run lint` · `npm test` (Vitest unit tests for the forecasting, gym, walking and restock logic)
+
+CI (GitHub Actions) runs lint, tests and a production build on every push.
 
 ## Deploying
 
