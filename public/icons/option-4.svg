@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#5b7a60"/>
+  <rect x="34" y="34" width="444" height="444" rx="86" fill="none" stroke="#f4efe6" stroke-opacity="0.35" stroke-width="4"/>
+  <path d="M158 252 L256 170 L354 252" fill="none" stroke="#f4efe6" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="236" y="214" width="40" height="40" rx="6" fill="none" stroke="#e9d8c2" stroke-width="8"/>
+  <text x="256" y="354" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="88" fill="#f4efe6">casa</text>
+</svg>

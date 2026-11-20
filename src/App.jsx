@@ -19,6 +19,7 @@ import Income from '@/pages/Income';
 import Nutrition from '@/pages/Nutrition';
 import Shopping from '@/pages/Shopping';
 import ShortcutSetup from '@/pages/ShortcutSetup';
+import DesignChoice from '@/pages/DesignChoice';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -46,6 +47,8 @@ const AuthenticatedApp = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      {/* Public: design picker (no private data), shareable by link */}
+      <Route path="/design" element={<div className="min-h-screen bg-background"><div className="max-w-lg mx-auto px-4 py-6"><DesignChoice /></div></div>} />
       <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
         <Route element={<AppLayout />}>
           <Route path="/" element={<Dashboard />} />
