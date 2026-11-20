@@ -1,0 +1,23 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "user"
+      ],
+      "default": "user"
+    },
+    "calorie_goal": {
+      "type": "number",
+      "description": "יעד קלורי יומי אישי",
+      "default": 1400
+    },
+    "weight_goal": {
+      "type": "number",
+      "description": "משקל יעד בק\"ג (לתחזית משקל)"
+    }
+  }
+}

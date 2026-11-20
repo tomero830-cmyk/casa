@@ -1,0 +1,3 @@
+# Netlify: proxy Base44 API calls (the app uses relative /api/... URLs), then SPA fallback.
+/api/*  https://base44.app/api/:splat  200
+/*      /index.html                    200

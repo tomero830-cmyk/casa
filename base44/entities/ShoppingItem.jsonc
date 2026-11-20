@@ -1,0 +1,55 @@
+{
+  "name": "ShoppingItem",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05d4\u05de\u05d5\u05e6\u05e8"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "produce",
+        "dairy",
+        "meat",
+        "bakery",
+        "pantry",
+        "cleaning",
+        "hygiene",
+        "other"
+      ],
+      "default": "other",
+      "description": "\u05e7\u05d8\u05d2\u05d5\u05e8\u05d9\u05d4"
+    },
+    "quantity": {
+      "type": "number",
+      "default": 1,
+      "description": "\u05db\u05de\u05d5\u05ea"
+    },
+    "unit": {
+      "type": "string",
+      "description": "\u05d9\u05d7\u05d9\u05d3\u05d4 (\u05e7\"\u05d2, \u05d9\u05d7\u05d9\u05d3\u05d5\u05ea, \u05dc\u05d9\u05d8\u05e8...)"
+    },
+    "is_purchased": {
+      "type": "boolean",
+      "default": false,
+      "description": "\u05d4\u05d0\u05dd \u05e0\u05e7\u05e0\u05d4"
+    },
+    "purchased_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "\u05de\u05ea\u05d9 \u05e0\u05e7\u05e0\u05d4"
+    },
+    "purchase_session_id": {
+      "type": "string",
+      "description": "\u05de\u05d6\u05d4\u05d4 \u05e7\u05e0\u05d9\u05d4 - \u05db\u05dc \u05e7\u05e0\u05d9\u05d4 \u05de\u05e7\u05d1\u05dc\u05ea ID \u05de\u05e9\u05d5\u05ea\u05e3"
+    },
+    "notes": {
+      "type": "string",
+      "description": "\u05d4\u05e2\u05e8\u05d5\u05ea"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

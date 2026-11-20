@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Frank+Ruhl+Libre:wght@400;500;700&family=Heebo:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Body: Hebrew sans. Headings: Latin serif for "Casa", Hebrew serif for Hebrew text. */
+    --font-heebo: 'Heebo', system-ui, sans-serif;
+    --font-playfair: 'Cormorant Garamond', 'Frank Ruhl Libre', serif;
+
+    /* Soft classic palette: linen background, warm white cards, muted sage green + soft coffee brown.
+       Everything sits in a narrow, low-contrast range so colors blend instead of competing. */
+    --background: 38 30% 92%;
+    --foreground: 25 22% 20%;
+    --card: 40 40% 98.5%;
+    --card-foreground: 25 22% 20%;
+    --popover: 40 40% 98.5%;
+    --popover-foreground: 25 22% 20%;
+    --primary: 145 20% 36%;
+    --primary-foreground: 40 40% 98%;
+    --secondary: 36 24% 87%;
+    --secondary-foreground: 25 22% 24%;
+    --muted: 38 26% 94%;
+    --muted-foreground: 28 12% 45%;
+    --accent: 140 18% 90%;
+    --accent-foreground: 145 22% 28%;
+    --destructive: 6 45% 48%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 34 20% 85%;
+    --input: 34 20% 84%;
+    --ring: 145 20% 36%;
+    --chart-1: 145 20% 40%;
+    --chart-2: 30 30% 55%;
+    --chart-3: 140 15% 65%;
+    --chart-4: 25 22% 35%;
+    --chart-5: 38 40% 65%;
+    /* Brand surfaces */
+    --brand-brown: 28 20% 32%;
+    --brand-brown-foreground: 40 40% 96%;
+    --brand-green: 145 20% 36%;
+    --hero-from: 140 20% 86%;
+    --hero-to: 36 34% 88%;
+    /* Tone pairs for icon chips and highlights (bg / mid / solid / fg) */
+    --tone-gold-bg: 38 40% 91%;
+    --tone-gold-mid: 36 40% 78%;
+    --tone-gold: 34 35% 50%;
+    --tone-gold-fg: 30 35% 34%;
+    --tone-brown-bg: 34 28% 89%;
+    --tone-brown-mid: 28 30% 75%;
+    --tone-brown: 28 22% 42%;
+    --tone-brown-fg: 28 25% 30%;
+    --tone-terra-bg: 18 32% 91%;
+    --tone-terra: 16 32% 50%;
+    --tone-terra-fg: 16 32% 35%;
+    --tone-sage-bg: 140 16% 90%;
+    --tone-sage: 140 15% 50%;
+    --tone-sage-fg: 145 20% 30%;
+    --card-shadow: 0 1px 2px rgba(70, 50, 30, 0.04), 0 10px 30px -14px rgba(70, 50, 30, 0.16);
+    --radius: 1.25rem;
+    --sidebar-background: 25 45% 28%;
+    --sidebar-foreground: 38 30% 92%;
+    --sidebar-primary: 142 45% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 25 40% 35%;
+    --sidebar-accent-foreground: 38 30% 92%;
+    --sidebar-border: 25 35% 22%;
+    --sidebar-ring: 142 45% 55%;
+  }
+
+  /* Automatic dark mode: deep walnut background, soft green accents */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background: 24 22% 9%;
+      --foreground: 36 30% 90%;
+      --card: 24 18% 13%;
+      --card-foreground: 36 30% 90%;
+      --popover: 24 18% 14%;
+      --popover-foreground: 36 30% 90%;
+      --primary: 145 22% 52%;
+      --primary-foreground: 24 25% 8%;
+      --secondary: 24 16% 20%;
+      --secondary-foreground: 36 30% 88%;
+      --muted: 24 14% 18%;
+      --muted-foreground: 32 14% 62%;
+      --accent: 150 18% 20%;
+      --accent-foreground: 150 30% 80%;
+      --destructive: 4 60% 55%;
+      --border: 24 14% 22%;
+      --input: 24 14% 24%;
+      --ring: 145 22% 52%;
+      --brand-brown: 24 26% 15%;
+      --brand-brown-foreground: 36 35% 88%;
+      --brand-green: 145 18% 30%;
+      --hero-from: 145 14% 19%;
+      --hero-to: 30 16% 18%;
+      --tone-gold-bg: 34 30% 18%;
+      --tone-gold-mid: 34 25% 32%;
+      --tone-gold: 36 55% 58%;
+      --tone-gold-fg: 38 60% 75%;
+      --tone-brown-bg: 26 22% 20%;
+      --tone-brown-mid: 26 18% 35%;
+      --tone-brown: 28 35% 62%;
+      --tone-brown-fg: 30 40% 80%;
+      --tone-terra-bg: 16 28% 18%;
+      --tone-terra: 16 55% 60%;
+      --tone-terra-fg: 16 60% 76%;
+      --tone-sage-bg: 150 14% 17%;
+      --tone-sage: 150 20% 55%;
+      --tone-sage-fg: 150 25% 76%;
+      --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -10px rgba(0, 0, 0, 0.5);
+      color-scheme: dark;
+    }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    direction: rtl;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-heebo);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+
+  /* Hebrew has no true italic: headings are upright serif; Latin logo uses .italic explicitly */
+  h1, h2, h3 {
+    font-family: var(--font-playfair);
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  /* Thin, classic line icons everywhere (overrides lucide's stroke-width attribute) */
+  svg.lucide {
+    stroke-width: 1.5;
+  }
+
+  /* Numbers line up in stats and lists */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  /* Shared card surface used across modules */
+  .surface {
+    @apply rounded-3xl bg-card;
+    box-shadow: var(--card-shadow);
+  }
+}
