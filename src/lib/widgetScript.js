@@ -1,5 +1,6 @@
 // Builds the Scriptable (iOS) widget script with the user's personal token embedded.
-// The script calls the widgetSummary function and draws calories + indoor-walk progress.
+// Layout mirrors the in-app daily calorie card: goal ring, big number, remaining + bar,
+// and a protein / carbs / fat row. Works in medium (full) and small (ring + number) sizes.
 
 export function buildWidgetScript({ apiUrl, token, appUrl }) {
   return `// Casa widget for Scriptable. Personal: contains your access code, don't share it.
@@ -20,69 +21,121 @@ try {
   data = { error: "אין חיבור" };
 }
 
+const dyn = (light, dark) => Color.dynamic(new Color(light), new Color(dark));
 const C = {
-  bg: Color.dynamic(new Color("#faf7f1"), new Color("#1d1813")),
-  text: Color.dynamic(new Color("#2e2a22"), new Color("#efe7da")),
-  muted: Color.dynamic(new Color("#8a8072"), new Color("#a89d8e")),
-  olive: Color.dynamic(new Color("#5d6a43"), new Color("#8fa06a")),
-  terra: Color.dynamic(new Color("#b0654a"), new Color("#d08a6e")),
-  track: Color.dynamic(new Color("#ebe5d8"), new Color("#3a3128")),
+  bg: dyn("#ffffff", "#1d1813"),
+  text: dyn("#2e2a22", "#efe7da"),
+  muted: dyn("#8a8072", "#a89d8e"),
+  olive: dyn("#626b40", "#8fa06a"),
+  over: dyn("#a8553a", "#d08a6e"),
+  track: dyn("#efebe3", "#3a3128"),
+  line: dyn("#ece7de", "#332b23"),
+  protein: new Color("#2F6A4C"),
+  carbs: new Color("#B5803A"),
+  fat: new Color("#A8553A"),
 };
 
-function bar(value, max, color, width) {
+// Goal ring with the percentage in the middle (drawn as an image)
+function ring(pct, size, color) {
+  const ctx = new DrawContext();
+  ctx.size = new Size(size, size);
+  ctx.opaque = false;
+  ctx.respectScreenScale = true;
+  const lw = size * 0.12;
+  const r = (size - lw) / 2;
+  const c = size / 2;
+  ctx.setLineWidth(lw);
+  ctx.setStrokeColor(C.track);
+  ctx.strokeEllipse(new Rect(lw / 2, lw / 2, size - lw, size - lw));
+  const p = Math.max(0, Math.min(1, pct));
+  if (p > 0) {
+    const path = new Path();
+    const steps = Math.max(2, Math.round(120 * p));
+    const pts = [];
+    for (let i = 0; i <= steps; i++) {
+      // Start at 12 o'clock, go clockwise
+      const a = -Math.PI / 2 + (2 * Math.PI * p * i) / steps;
+      pts.push(new Point(c + r * Math.cos(a), c + r * Math.sin(a)));
+    }
+    path.addLines(pts);
+    ctx.addPath(path);
+    ctx.setStrokeColor(color);
+    ctx.strokePath();
+  }
+  ctx.setTextAlignedCenter();
+  ctx.setTextColor(C.text);
+  ctx.setFont(Font.boldSystemFont(size * 0.22));
+  ctx.drawTextInRect(Math.round(pct * 100) + "%", new Rect(0, c - size * 0.2, size, size * 0.28));
+  ctx.setTextColor(C.muted);
+  ctx.setFont(Font.systemFont(size * 0.12));
+  ctx.drawTextInRect("יעד", new Rect(0, c + size * 0.08, size, size * 0.16));
+  return ctx.getImage();
+}
+
+// Thin progress bar that fills from the right (RTL)
+function bar(pct, width, color) {
   const h = 6;
   const ctx = new DrawContext();
   ctx.size = new Size(width, h);
   ctx.opaque = false;
   ctx.respectScreenScale = true;
-  ctx.setFillColor(C.track);
   const track = new Path();
   track.addRoundedRect(new Rect(0, 0, width, h), 3, 3);
   ctx.addPath(track);
+  ctx.setFillColor(C.track);
   ctx.fillPath();
-  const pct = max > 0 ? Math.max(0.04, Math.min(1, value / max)) : 0;
-  ctx.setFillColor(color);
+  const p = Math.max(0.03, Math.min(1, pct));
   const fill = new Path();
-  // Right-to-left: progress grows from the right edge
-  fill.addRoundedRect(new Rect(width * (1 - pct), 0, width * pct, h), 3, 3);
+  fill.addRoundedRect(new Rect(width * (1 - p), 0, width * p, h), 3, 3);
   ctx.addPath(fill);
+  ctx.setFillColor(color);
   ctx.fillPath();
   return ctx.getImage();
 }
 
-function row(w, label, valueText, value, max, color, width) {
-  const top = w.addStack();
-  top.layoutHorizontally();
-  const v = top.addText(valueText);
-  v.font = Font.semiboldSystemFont(15);
-  v.textColor = C.text;
-  top.addSpacer();
-  const l = top.addText(label);
-  l.font = Font.systemFont(11);
-  l.textColor = C.muted;
-  w.addSpacer(4);
-  const img = w.addImage(bar(value, max, color, width));
-  img.imageSize = new Size(width, 6);
+function dot(color) {
+  const ctx = new DrawContext();
+  ctx.size = new Size(8, 8);
+  ctx.opaque = false;
+  ctx.respectScreenScale = true;
+  ctx.setFillColor(color);
+  ctx.fillEllipse(new Rect(0, 0, 8, 8));
+  return ctx.getImage();
+}
+
+function text(stack, value, font, color) {
+  const t = stack.addText(value);
+  t.font = font;
+  t.textColor = color;
+  return t;
+}
+
+function macro(stack, label, grams, color) {
+  const col = stack.addStack();
+  col.layoutVertically();
+  col.centerAlignContent();
+  const d = col.addStack();
+  d.addSpacer();
+  const img = d.addImage(dot(color));
+  img.imageSize = new Size(7, 7);
+  d.addSpacer();
+  col.addSpacer(3);
+  const v = col.addStack();
+  v.addSpacer();
+  text(v, grams + "ג׳", Font.boldSystemFont(14), C.text);
+  v.addSpacer();
+  const l = col.addStack();
+  l.addSpacer();
+  text(l, label, Font.systemFont(10), C.muted);
+  l.addSpacer();
 }
 
 const w = new ListWidget();
 w.backgroundColor = C.bg;
 w.url = APP;
-w.setPadding(14, 14, 14, 14);
 w.refreshAfterDate = new Date(Date.now() + 15 * 60 * 1000);
-
-const head = w.addStack();
-head.layoutHorizontally();
-const time = head.addText(pad(now.getHours()) + ":" + pad(now.getMinutes()));
-time.font = Font.systemFont(10);
-time.textColor = C.muted;
-head.addSpacer();
-const title = head.addText("casa");
-title.font = new Font("Georgia-Italic", 15);
-title.textColor = C.olive;
-w.addSpacer(8);
-
-const width = config.widgetFamily === "small" ? 120 : 280;
+const small = config.widgetFamily === "small";
+w.setPadding(small ? 12 : 14, 16, small ? 12 : 12, 16);
 
 if (data.error) {
   const t = w.addText(data.error === "Unauthorized" ? "הקוד לא תקין, צרו קוד חדש באפליקציה" : data.error);
@@ -90,20 +143,66 @@ if (data.error) {
   t.textColor = C.muted;
   t.rightAlignText();
 } else {
-  row(w, "קלוריות", data.calories.toLocaleString() + " / " + data.calorie_goal.toLocaleString(), data.calories, data.calorie_goal, data.calories > data.calorie_goal + 100 ? C.terra : C.olive, width);
-  if (data.walk && data.walk.goal_minutes) {
+  const goal = data.calorie_goal || 1400;
+  const pct = data.calories / goal;
+  const over = data.calories > goal;
+  const color = over ? C.over : C.olive;
+  const left = goal - data.calories;
+
+  if (small) {
+    w.addSpacer();
+    const r = w.addStack();
+    r.addSpacer();
+    const img = r.addImage(ring(pct, 76, color));
+    img.imageSize = new Size(76, 76);
+    r.addSpacer();
+    w.addSpacer(6);
+    const n = w.addStack();
+    n.addSpacer();
+    text(n, data.calories.toLocaleString(), Font.boldSystemFont(22), C.text);
+    text(n, " קק״ל", Font.systemFont(12), C.muted);
+    n.addSpacer();
+    w.addSpacer();
+  } else {
+    // Top: numbers (left side of the stack = visually left) and ring on the right
+    const top = w.addStack();
+    top.layoutHorizontally();
+    top.centerAlignContent();
+
+    const info = top.addStack();
+    info.layoutVertically();
+    const big = info.addStack();
+    big.addSpacer();
+    text(big, "קק״ל ", Font.systemFont(13), C.muted);
+    text(big, data.calories.toLocaleString(), Font.boldSystemFont(30), C.text);
+    info.addSpacer(2);
+    const rem = info.addStack();
+    rem.addSpacer();
+    text(rem, over ? (-left).toLocaleString() + " מעל היעד של " + goal.toLocaleString() : "נותרו " + left.toLocaleString() + " קק״ל מתוך " + goal.toLocaleString(), Font.systemFont(11), C.muted);
+    info.addSpacer(8);
+    const b = info.addImage(bar(pct, 170, color));
+    b.imageSize = new Size(170, 6);
+    b.rightAlignImage();
+
+    top.addSpacer(14);
+    const r = top.addImage(ring(pct, 72, color));
+    r.imageSize = new Size(72, 72);
+
     w.addSpacer(10);
-    const label = data.walk.is_today ? "הליכה היום" : "הליכה אחרונה";
-    row(w, label, data.walk.last_minutes + " / " + data.walk.goal_minutes + " דק׳", data.walk.last_minutes, data.walk.goal_minutes, C.olive, width);
-  } else if (data.steps) {
-    w.addSpacer(10);
-    const s = w.addText(Number(data.steps).toLocaleString() + " צעדים");
-    s.font = Font.systemFont(12);
-    s.textColor = C.muted;
-    s.rightAlignText();
+    const sep = w.addImage(bar(0, 300, C.line));
+    sep.imageSize = new Size(300, 1);
+    w.addSpacer(8);
+
+    // Macros row, right to left: protein, carbs, fat
+    const m = w.addStack();
+    m.layoutHorizontally();
+    macro(m, "שומן", data.fat || 0, C.fat);
+    m.addSpacer();
+    macro(m, "פחמימות", data.carbs || 0, C.carbs);
+    m.addSpacer();
+    macro(m, "חלבון", data.protein || 0, C.protein);
   }
 }
-w.addSpacer();
 
 if (config.runsInWidget) Script.setWidget(w);
 else await w.presentMedium();

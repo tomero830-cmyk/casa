@@ -40,9 +40,9 @@ Deno.serve(async (req) => {
       db.FoodEntry.filter({ date: today, created_by: email }),
       db.User.filter({ email }),
     ]);
-    const calories = entries
-      .filter((e) => !INTERNAL.includes(e.food_name))
-      .reduce((sum, e) => sum + (Number(e.calories) || 0), 0);
+    const food = entries.filter((e) => !INTERNAL.includes(e.food_name));
+    const sum = (key: string) => food.reduce((total, e) => total + (Number(e[key]) || 0), 0);
+    const calories = sum("calories");
     const calorieGoal = Number(users[0]?.calorie_goal) || 1400;
     const steps = entries.find((e) => e.food_name === "__steps__")?.steps ?? null;
 
@@ -67,6 +67,9 @@ Deno.serve(async (req) => {
       date: today,
       calories: Math.round(calories),
       calorie_goal: calorieGoal,
+      protein: Math.round(sum("protein")),
+      carbs: Math.round(sum("carbs")),
+      fat: Math.round(sum("fat")),
       steps,
       walk,
     }, { headers: { "Cache-Control": "no-store" } });
