@@ -1,4 +1,6 @@
 import { Toaster } from "@/components/ui/toaster"
+import { MotionConfig } from 'framer-motion'
+import { usePrefs } from '@/lib/prefs'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
@@ -71,7 +73,9 @@ const AuthenticatedApp = () => {
 };
 
 function App() {
+  const prefs = usePrefs();
   return (
+    <MotionConfig reducedMotion={prefs.motion === "off" ? "always" : "user"}>
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
         <Router>
@@ -80,6 +84,7 @@ function App() {
         <Toaster />
       </QueryClientProvider>
     </AuthProvider>
+    </MotionConfig>
   )
 }
 

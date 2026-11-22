@@ -1,5 +1,6 @@
 import { useAuth } from "@/lib/AuthContext";
 import { HOUSEHOLD_NAME } from "@/lib/household";
+import { usePrefs } from "@/lib/prefs";
 import WeeklyInsightChart from "@/components/dashboard/WeeklyInsightChart";
 import TodayWidgets from "@/components/dashboard/TodayWidgets";
 import WalkGoalCard from "@/components/dashboard/WalkGoalCard";
@@ -8,6 +9,7 @@ import SharedGoalCard from "@/components/dashboard/SharedGoalCard";
 
 export default function Dashboard() {
   const { user } = useAuth();
+  const { home } = usePrefs();
   const goalCalories = user?.calorie_goal || 1400;
 
   const now = new Date();
@@ -30,15 +32,15 @@ export default function Dashboard() {
       </div>
 
       {/* Indoor-walk time goal (only for users with synced walks) */}
-      <WalkGoalCard userEmail={user?.email} />
-      <RunsCard userEmail={user?.email} />
-      <SharedGoalCard />
+      {home.walk && <WalkGoalCard userEmail={user?.email} />}
+      {home.runs && <RunsCard userEmail={user?.email} />}
+      {home.goal && <SharedGoalCard />}
 
       {/* Today Summary */}
-      <TodayWidgets userEmail={user?.email} goalCalories={goalCalories} />
+      {home.today && <TodayWidgets userEmail={user?.email} goalCalories={goalCalories} />}
 
       {/* Weekly Insight Chart */}
-      <WeeklyInsightChart userEmail={user?.email} />
+      {home.weekly && <WeeklyInsightChart userEmail={user?.email} />}
 
     </div>
   );

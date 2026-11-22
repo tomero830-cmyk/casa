@@ -2,10 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from '@/App.jsx'
 import '@/index.css'
-import { applyTheme, getTheme } from '@/lib/theme'
+import { applyPrefs } from '@/lib/prefs'
 import { registerServiceWorker } from '@/lib/push'
 
-applyTheme(getTheme())
+applyPrefs()
 registerServiceWorker()
 
 ReactDOM.createRoot(document.getElementById('root')).render(

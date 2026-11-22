@@ -5,6 +5,7 @@ import { Home, Wallet, Dumbbell, Apple, ShoppingCart, Settings as SettingsIcon }
 import { cn } from "@/lib/utils";
 import { HOUSEHOLD_NAME } from "@/lib/household";
 import { isDemoMode, DEMO_FLAG } from "@/api/demoClient";
+import { usePrefs } from "@/lib/prefs";
 
 const navItems = [
   { path: "/", icon: Home, label: "בית" },
@@ -21,7 +22,8 @@ const navIndex = (path) => {
 
 export default function AppLayout() {
   const location = useLocation();
-  const reduceMotion = useReducedMotion();
+  const prefs = usePrefs();
+  const reduceMotion = useReducedMotion() || prefs.motion === "off";
   const [scrolled, setScrolled] = useState(false);
 
   // Slide direction follows the tab order. In RTL the next tab sits to the left,

@@ -1,5 +1,4 @@
-// Per-device color theme (a convenience, not synced): stored in localStorage and
-// applied as html[data-theme]. "sage" is the default palette in index.css.
+// Color theme catalog. Applied via prefs.js as html[data-theme]; "sage" is the :root palette in index.css.
 export const THEMES = [
   { id: "sage", name: "מרווה וחול", note: "רך ושקט, ירוק עדין על רקע פשתן", swatch: ["#e9e4da", "#5b7a60", "#d9cbb5"] },
   { id: "forest", name: "יער", note: "לבן נקי וירוק עמוק, הכי מקצועי וחד", swatch: ["#f5f4f1", "#265c40", "#e0e9e3"] },
@@ -7,18 +6,5 @@ export const THEMES = [
   { id: "olive", name: "זית וטרקוטה", note: "ירוק זית ונגיעות כתום-אדמה על רקע בהיר מאוד", swatch: ["#faf7f1", "#5d6a43", "#e9c9b8"] },
 ];
 
-const KEY = "casa-theme";
 /** Household default, chosen in the design picker. */
 export const DEFAULT_THEME = "olive";
-
-export function getTheme() {
-  try { return localStorage.getItem(KEY) || DEFAULT_THEME; } catch { return DEFAULT_THEME; }
-}
-
-export function applyTheme(id) {
-  const theme = THEMES.some(t => t.id === id) ? id : "sage";
-  if (theme === "sage") document.documentElement.removeAttribute("data-theme");
-  else document.documentElement.setAttribute("data-theme", theme);
-  try { localStorage.setItem(KEY, theme); } catch { /* private mode: theme just won't persist */ }
-  return theme;
-}

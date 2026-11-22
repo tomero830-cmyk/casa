@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Frank+Ruhl+Libre:wght@400;500;700&family=Heebo:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Frank+Ruhl+Libre:wght@400;500;700&family=Heebo:wght@300;400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -69,9 +69,9 @@
     --sidebar-ring: 142 45% 55%;
   }
 
-  /* Automatic dark mode: deep walnut background, soft green accents */
+  /* Dark mode: follows the system unless forced light; can also be forced dark (html[data-mode]) */
   @media (prefers-color-scheme: dark) {
-    :root {
+    :root:not([data-mode="light"]) {
       --background: 24 22% 9%;
       --foreground: 36 30% 90%;
       --card: 24 18% 13%;
@@ -112,6 +112,47 @@
       --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -10px rgba(0, 0, 0, 0.5);
       color-scheme: dark;
     }
+  }
+  html[data-mode="dark"] {
+      --background: 24 22% 9%;
+      --foreground: 36 30% 90%;
+      --card: 24 18% 13%;
+      --card-foreground: 36 30% 90%;
+      --popover: 24 18% 14%;
+      --popover-foreground: 36 30% 90%;
+      --primary: 145 22% 52%;
+      --primary-foreground: 24 25% 8%;
+      --secondary: 24 16% 20%;
+      --secondary-foreground: 36 30% 88%;
+      --muted: 24 14% 18%;
+      --muted-foreground: 32 14% 62%;
+      --accent: 150 18% 20%;
+      --accent-foreground: 150 30% 80%;
+      --destructive: 4 60% 55%;
+      --border: 24 14% 22%;
+      --input: 24 14% 24%;
+      --ring: 145 22% 52%;
+      --brand-brown: 24 26% 15%;
+      --brand-brown-foreground: 36 35% 88%;
+      --brand-green: 145 18% 30%;
+      --hero-from: 145 14% 19%;
+      --hero-to: 30 16% 18%;
+      --tone-gold-bg: 34 30% 18%;
+      --tone-gold-mid: 34 25% 32%;
+      --tone-gold: 36 55% 58%;
+      --tone-gold-fg: 38 60% 75%;
+      --tone-brown-bg: 26 22% 20%;
+      --tone-brown-mid: 26 18% 35%;
+      --tone-brown: 28 35% 62%;
+      --tone-brown-fg: 30 40% 80%;
+      --tone-terra-bg: 16 28% 18%;
+      --tone-terra: 16 55% 60%;
+      --tone-terra-fg: 16 60% 76%;
+      --tone-sage-bg: 150 14% 17%;
+      --tone-sage: 150 20% 55%;
+      --tone-sage-fg: 150 25% 76%;
+      --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -10px rgba(0, 0, 0, 0.5);
+      color-scheme: dark;
   }
 }
 
@@ -162,7 +203,7 @@
    ------------------------------------------------------------------ */
 @media (prefers-color-scheme: light) {
   /* יער: crisp white, deep forest green, higher contrast */
-  html[data-theme="forest"] {
+  html[data-theme="forest"]:not([data-mode="dark"]) {
     --background: 40 20% 96%;
     --foreground: 150 20% 12%;
     --card: 0 0% 100%;
@@ -184,7 +225,7 @@
   }
 
   /* קפה: latte background, coffee brown lead, sage as accent */
-  html[data-theme="coffee"] {
+  html[data-theme="coffee"]:not([data-mode="dark"]) {
     --background: 32 30% 89%;
     --foreground: 24 30% 16%;
     --card: 36 40% 97%;
@@ -206,7 +247,7 @@
   }
 
   /* זית וטרקוטה: olive green with warm terracotta details */
-  html[data-theme="olive"] {
+  html[data-theme="olive"]:not([data-mode="dark"]) {
     --background: 45 30% 96.5%;
     --foreground: 30 20% 18%;
     --card: 0 0% 100%;
@@ -227,7 +268,95 @@
     --tone-brown-fg: 16 40% 34%;
   }
 }
+/* Forced light mode while the system is dark */
+  /* יער: crisp white, deep forest green, higher contrast */
+  html[data-mode="light"][data-theme="forest"] {
+    --background: 40 20% 96%;
+    --foreground: 150 20% 12%;
+    --card: 0 0% 100%;
+    --popover: 0 0% 100%;
+    --card-foreground: 150 20% 12%;
+    --primary: 152 42% 26%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 140 12% 90%;
+    --muted: 140 10% 95%;
+    --muted-foreground: 150 8% 40%;
+    --accent: 148 30% 90%;
+    --accent-foreground: 152 42% 22%;
+    --border: 140 10% 86%;
+    --ring: 152 42% 26%;
+    --hero-from: 150 30% 88%;
+    --hero-to: 40 20% 97%;
+    --tone-brown-bg: 36 20% 92%;
+    --tone-brown-fg: 28 22% 30%;
+  }
+
+  /* קפה: latte background, coffee brown lead, sage as accent */
+  html[data-mode="light"][data-theme="coffee"] {
+    --background: 32 30% 89%;
+    --foreground: 24 30% 16%;
+    --card: 36 40% 97%;
+    --popover: 36 40% 97%;
+    --card-foreground: 24 30% 16%;
+    --primary: 24 32% 34%;
+    --primary-foreground: 36 40% 97%;
+    --secondary: 30 26% 83%;
+    --muted: 32 28% 92%;
+    --muted-foreground: 26 14% 42%;
+    --accent: 140 16% 87%;
+    --accent-foreground: 145 22% 28%;
+    --border: 30 22% 80%;
+    --ring: 24 32% 34%;
+    --hero-from: 30 34% 82%;
+    --hero-to: 140 14% 86%;
+    --tone-brown-bg: 28 32% 86%;
+    --tone-brown-fg: 24 32% 28%;
+  }
+
+  /* זית וטרקוטה: olive green with warm terracotta details */
+  html[data-mode="light"][data-theme="olive"] {
+    --background: 45 30% 96.5%;
+    --foreground: 30 20% 18%;
+    --card: 0 0% 100%;
+    --popover: 0 0% 100%;
+    --card-foreground: 30 20% 18%;
+    --primary: 75 22% 34%;
+    --primary-foreground: 44 45% 98%;
+    --secondary: 38 28% 85%;
+    --muted: 42 28% 94%;
+    --muted-foreground: 32 12% 44%;
+    --accent: 70 22% 88%;
+    --accent-foreground: 75 25% 26%;
+    --border: 38 22% 83%;
+    --ring: 75 22% 34%;
+    --hero-from: 70 22% 84%;
+    --hero-to: 18 40% 88%;
+    --tone-brown-bg: 16 38% 90%;
+    --tone-brown-fg: 16 40% 34%;
+  }
+
 
 /* Horizontal chip rows without a visible scrollbar */
 .no-scrollbar { scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ---------- Personal preferences (see src/lib/prefs.js) ---------- */
+html[data-font="modern"] h1, html[data-font="modern"] h2, html[data-font="modern"] h3 {
+  font-family: var(--font-heebo);
+  font-weight: 600;
+}
+html[data-font="rounded"] body,
+html[data-font="rounded"] h1, html[data-font="rounded"] h2, html[data-font="rounded"] h3 {
+  font-family: 'Rubik', var(--font-heebo);
+}
+html[data-font="rounded"] h1, html[data-font="rounded"] h2, html[data-font="rounded"] h3 { font-weight: 600; }
+
+html[data-text="large"] { font-size: 17.5px; }
+
+html[data-radius="soft"] { --radius: 0.75rem; }
+html[data-radius="soft"] .surface { border-radius: 1rem; }
+
+html[data-motion="off"] *, html[data-motion="off"] *::before, html[data-motion="off"] *::after {
+  animation-duration: 0.001ms !important;
+  transition-duration: 0.001ms !important;
+}
